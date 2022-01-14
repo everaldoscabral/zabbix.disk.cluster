@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2022-01-14T15:17:36Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template Windows Discovery Disk Cluster</template>
+            <name>Template Windows Discovery Disk Cluster</name>
+            <description>Template para descobrir os discos em cluster.&#13;
+&#13;
+Criado por Everaldo Santos Cabral.&#13;
+Data: 14/01/2022</description>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>LLD Discovery DIsk</name>
+                    <key>discovery.cluster.disk[DISCOVERY]</key>
+                    <delay>1d</delay>
+                    <lifetime>0d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Status do Disco {#CLUSTER}</name>
+                            <key>discovery.cluster.disk[STATUS,&quot;{#CLUSTER}&quot;]</key>
+                            <delay>5m</delay>
+                            <history>7d</history>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>Disco: {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <valuemap>
+                                <name>Microsoft  Cluster Disk Status</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;&gt;1</expression>
+                                    <name>Disco {#CLUSTER} está Offline no Cluster!</name>
+                                    <opdata>Status do Disco: {ITEM.LASTVALUE}</opdata>
+                                    <priority>DISASTER</priority>
+                                    <description></description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+    <value_maps>
+        <value_map>
+            <name>Microsoft  Cluster Disk Status</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Offline</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Online</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+    </value_maps>
+</zabbix_export>
