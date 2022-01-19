@@ -36,6 +36,6 @@ if ($DESCOBERTA -eq 'STATUS'){
 Import-Module FailoverClusters
 $task = Get-ClusterResource | where {$_.name -eq "$DISCO"} | Select-Object -ExpandProperty state
 $task1 = $task
-$task2 = "$task1".replace('Offline','0').replace('Online','1')
+$task2 = "$task1".replace('Offline','0').replace('Online','1').replace('Failed','2').replace('Pending','3')
 Write-Output ($task2)
 }
